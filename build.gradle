@@ -1,0 +1,47 @@
+plugins {
+    id "java"
+    id "idea"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+group = "io.rsocket"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(platform("io.rsocket:rsocket-bom:1.1.0"))
+    implementation(platform("io.projectreactor:reactor-bom:2020.0.6"))
+
+    implementation("io.rsocket:rsocket-core")
+    implementation("io.rsocket:rsocket-transport-netty")
+
+    implementation("io.netty:netty-tcnative-boringssl-static:2.0.39.Final")
+    implementation("io.netty:netty-tcnative:2.0.39.Final")
+
+    implementation "org.apache.commons:commons-lang3:3.12.0"
+    implementation 'com.miglayout:miglayout-swing:11.0'
+
+    implementation("org.apache.jmeter:ApacheJMeter_core:5.4.1") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+    implementation("org.apache.jmeter:ApacheJMeter_http:5.4.1") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+    implementation("org.apache.jmeter:ApacheJMeter_java:5.4.1") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+}
+
+configurations {
+    runtime.exclude module: "ApacheJMeter_core"
+    runtime.exclude module: "ApacheJMeter_java"
+    runtime.exclude module: "ApacheJMeter_http"
+    runtime.exclude module: "commons-logging"
+}
+
+shadowJar {
+}
